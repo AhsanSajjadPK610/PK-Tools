@@ -1,0 +1,15 @@
+/* PK TOOLS - Modern Dark Theme */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Outfit',sans-serif}
+body{background:#0a0a12;color:#fff;min-height:100vh;line-height:1.6}
+header, .header, .hero{text-align:center;padding:60px 20px 30px}
+header h1, .header h1, .hero h1{font-size:48px;font-weight:700;background:linear-gradient(90deg,#8b5cf6,#ec4899,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+header p, .header p, .hero p{color:#9ca3af;font-size:18px;margin-top:10px}
+.container, .tools, .tool-container, main{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:22px;max-width:1200px;margin:30px auto;padding:0 20px}
+.tool, .card, .tool-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:26px;transition:all 0.3s ease;backdrop-filter:blur(10px)}
+.tool:hover, .card:hover, .tool-card:hover{transform:translateY(-6px) scale(1.02);background:rgba(139,92,246,0.15);border-color:#8b5cf6;box-shadow:0 10px 30px rgba(139,92,246,0.3)}
+.tool h3, .card h3, .tool-card h3{font-size:19px;margin-bottom:8px}
+.tool p, .card p, .tool-card p{color:#a1a1aa;font-size:14px}
+a{text-decoration:none;color:inherit}
+.btn, button{background:linear-gradient(90deg,#8b5cf6,#ec4899);border:none;padding:12px 22px;border-radius:12px;color:white;font-weight:600;cursor:pointer;transition:0.3s}
+.btn:hover, button:hover{opacity:0.9;transform:scale(1.05)}
