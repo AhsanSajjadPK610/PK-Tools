@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QR Generator - PK Tools</title>
+<style>
+body{margin:0;font-family:Arial;background:#f0f2f5;min-height:100vh}
+.header{background:linear-gradient(135deg,#26bcff,#0041cc);color:#fff;padding:15px;text-align:center}
+.box{max-width:500px;margin:30px auto;background:#fff;padding:25px;border-radius:20px;box-shadow:0 10px 30px rgba(0,0,0,.1);text-align:center}
+input{width:90%;padding:14px;border-radius:10px;border:2px solid #e1e8ff;margin:10px 0;outline:none}
+button{background:linear-gradient(135deg,#26bcff,#0041cc);color:#fff;border:0;padding:14px 25px;border-radius:10px;font-weight:bold;width:95%;font-size:16px;cursor:pointer}
+#qrImg{margin-top:20px} img{border:10px solid #fff;box-shadow:0 5px 20px rgba(0,0,0,.1);border-radius:10px}
+a{color:#fff;text-decoration:none}
+.back{display:block;margin-top:15px;color:#0041cc;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="header"><a href="index.html">⬅ Back to Home</a> | QR Generator 🔗</div>
+
+<div class="box">
+<h2>Link se QR Banao</h2>
+<input id="link" placeholder="Yahan Link Paste Karo e.g. https://google.com">
+<button onclick="makeQR()">QR Banao</button>
+<div id="qrImg"></div>
+<a href="index.html" class="back">Home Pe Jao</a>
+</div>
+
+<script>
+function makeQR(){
+let l=document.getElementById('link').value.trim();
+if(!l){alert('Pehle link likho bhai!');return;}
+let url=`https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(l)}`;
+document.getElementById('qrImg').innerHTML=`<img src="${url}"><br><br><a href="${url}" download style="color:#fff;background:#000;padding:10px 20px;border-radius:8px;text-decoration:none">📥 QR Download Karo</a>`;
+}
+</script>
+</body>
+</html>
