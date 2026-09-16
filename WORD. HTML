@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Word Counter - PK Tools</title>
+<style>
+body{margin:0;font-family:Arial;background:#f0f2f5}
+.header{background:linear-gradient(135deg,#26bcff,#0041cc);color:#fff;padding:15px;text-align:center}
+.box{max-width:500px;margin:30px auto;background:#fff;padding:25px;border-radius:20px;box-shadow:0 10px 30px rgba(0,0,0,.1);text-align:center}
+textarea{width:90%;height:150px;padding:14px;border-radius:10px;border:2px solid #e1e8ff}
+#out{margin-top:15px;font-weight:bold;font-size:18px}
+a{color:#fff;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="header"><a href="index.html">⬅ Back</a> | Word Counter 📝</div>
+<div class="box">
+<h2>Alfaaz Gino</h2>
+<textarea id="t" placeholder="Yahan text likho..." oninput="count()"></textarea>
+<div id="out">Words: 0 | Characters: 0</div>
+</div>
+<script>
+function count(){
+let v=document.getElementById('t').value.trim();
+let w=v? v.split(/\s+/).length:0;
+document.getElementById('out').innerText=`Words: ${w} | Characters: ${v.length}`;
+}
+</script>
+</body>
+</html>
