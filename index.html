@@ -48,6 +48,11 @@ button{width:100%;background:#26bcff;color:#fff;border:0;padding:13px;border-rad
 <div class="card"><h2>🖼️ Image to PDF</h2><input type="file" id="imgFile" accept="image/*"><button onclick="imgToPdf()">PDF Banao</button><div id="pdfResult" class="result">Image select karo</div></div>
 <div class="card"><h2>✨ Stylish Name</h2><input id="nameInput" placeholder="Ali"><button onclick="makeFancy()">VIP Style</button><div id="fancyResult" class="result">Yahan result ayega</div></div>
 <div class="card"><h2>🔐 Password Generator</h2><button onclick="genPass()">Strong Password</button><div id="passResult" class="result">Click karo</div></div>
+ <div class="card"><h2>🎂 Age Calculator</h2><input type="date" id="dobInput"><button onclick="calcAgePro()">Age Nikalo</button><div id="ageRes" class="result"></div></div>
+<div class="card"><h2>% Percentage</h2><input type="number" id="obtM" placeholder="Obtained Marks"><input type="number" id="totM" placeholder="Total Marks"><button onclick="calcPerPro()">% Nikalo</button><div id="perRes" class="result"></div></div>
+<div class="card"><h2>🔄 JPG to PNG</h2><input type="file" id="jpgFile" accept="image/*"><button onclick="convertJPGPro()">Convert & Download</button><canvas id="cvs" style="display:none"></canvas></div>
+<div class="card"><h2>📶 WiFi QR</h2><input id="wifiN" placeholder="WiFi Name"><input id="wifiP" placeholder="WiFi Password"><button onclick="makeWifiQRPro()">WiFi QR Banao</button></div>
+<div class="card"><h2>📄 CV Maker</h2><input id="cvName" placeholder="Full Name"><input id="cvSkill" placeholder="Skills, e.g. MS Office"><textarea id="cvExp" placeholder="Experience likho"></textarea><button onclick="makeCVPro()">CV Banao</button><div id="cvOut" class="result"></div></div>
 </div>
 </div>
 
@@ -69,7 +74,12 @@ function makeQR(){let t=document.getElementById('qrText').value; if(!t)return al
 async function imgToPdf(){let f=document.getElementById('imgFile').files[0]; if(!f)return alert('Image select karo'); let r=new FileReader(); r.onload=function(e){let im=new Image(); im.onload=function(){let {jsPDF}=window.jspdf; let pdf=new jsPDF(); pdf.addImage(im,'JPEG',10,10,190,0); pdf.save('PK-Tools.pdf'); document.getElementById('pdfResult').innerText='✅ PDF Ho Gaya';}; im.src=e.target.result;}; r.readAsDataURL(f);}
 function makeFancy(){let n=document.getElementById('nameInput').value; if(!n)return alert('Naam likho'); let s=["𝔄𝔩𝔦","𝑨𝒍𝒊","𝕬𝖑𝖎","Ａｌｉ","🅰🅻🅸"]; document.getElementById('fancyResult').innerHTML=s.map(x=>`<div>${n} → ${x}</div>`).join('');}
 function genPass(){let c="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$&*"; let p=""; for(let i=0;i<14;i++)p+=c.charAt(Math.floor(Math.random()*c.length)); document.getElementById('passResult').innerText=p;}
-function filterTools(){let input=document.getElementById('searchInput').value.toLowerCase(); let cards=document.querySelectorAll('.card'); cards.forEach(card=>{let text=card.innerText.toLowerCase(); card.style.display=text.includes(input)?'':'none';});}
+function calcAgePro(){ let d=new Date(document.getElementById('dobInput').value); if(!d) return alert('Date select karo'); let a=Math.floor((Date.now()-d)/31557600000); document.getElementById('ageRes').innerText='Umar: '+a+' Saal'; }
+function calcPerPro(){ let o=document.getElementById('obtM').value, t=document.getElementById('totM').value; if(!o||!t) return alert('Marks likho'); document.getElementById('perRes').innerText='Percentage: '+(o/t*100).toFixed(2)+'%'; }
+function convertJPGPro(){ let f=document.getElementById('jpgFile').files[0]; if(!f) return alert('Image select karo'); let im=new Image(); im.onload=function(){ let c=document.getElementById('cvs'); c.width=im.width; c.height=im.height; c.getContext('2d').drawImage(im,0,0); let a=document.createElement('a'); a.download='PK-Tools-Converted.png'; a.href=c.toDataURL('image/png'); a.click(); }; im.src=URL.createObjectURL(f); }
+function makeWifiQRPro(){ let s=document.getElementById('wifiN').value, p=document.getElementById('wifiP').value; if(!s) return alert('WiFi name likho'); document.getElementById('qrText').value=`WIFI:S:${s};T:WPA;P:${p};;`; makeQR(); alert('Neeche QR Generator me QR ban gaya, scroll karo!'); }
+function makeCVPro(){ let n=document.getElementById('cvName').value, s=document.getElementById('cvSkill').value, e=document.getElementById('cvExp').value; document.getElementById('cvOut').innerText=`--- CV ---\nName: ${n}\nSkills: ${s}\nExperience: ${e}\n\nMade with PK-Tools Multan`; }
+ function filterTools(){let input=document.getElementById('searchInput').value.toLowerCase(); let cards=document.querySelectorAll('.card'); cards.forEach(card=>{let text=card.innerText.toLowerCase(); card.style.display=text.includes(input)?'':'none';});}
 // LISA AI LOGIC - DOST WALI LISA
 function toggleLisa(){
  let b=document.getElementById('lisaBox');
