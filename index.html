@@ -70,11 +70,28 @@ async function imgToPdf(){let f=document.getElementById('imgFile').files[0]; if(
 function makeFancy(){let n=document.getElementById('nameInput').value; if(!n)return alert('Naam likho'); let s=["𝔄𝔩𝔦","𝑨𝒍𝒊","𝕬𝖑𝖎","Ａｌｉ","🅰🅻🅸"]; document.getElementById('fancyResult').innerHTML=s.map(x=>`<div>${n} → ${x}</div>`).join('');}
 function genPass(){let c="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$&*"; let p=""; for(let i=0;i<14;i++)p+=c.charAt(Math.floor(Math.random()*c.length)); document.getElementById('passResult').innerText=p;}
 function filterTools(){let input=document.getElementById('searchInput').value.toLowerCase(); let cards=document.querySelectorAll('.card'); cards.forEach(card=>{let text=card.innerText.toLowerCase(); card.style.display=text.includes(input)?'':'none';});}
-// LISA AI LOGIC
-function toggleLisa(){let b=document.getElementById('lisaBox'); b.style.display=b.style.display==='flex'?'none':'flex';}
-function askLisa(){
-let inp=document.getElementById('lisaText'); let txt=inp.value.trim(); if(!txt)return;
-let box=document.getElementById('lisaMsgs');
-box.innerHTML+=`<div class="msg user">${txt}</div>`; inp.value='';
-let t=txt.toLowerCase(); let reply="Aap tool ka naam likho, jaise 'QR' ya 'PDF'";
-if(t.includes("qr")) reply="
+// LISA AI LOGIC - DOST WALI LISA
+function toggleLisa(){
+ let b=document.getElementById('lisaBox');
+ b.style.display=b.style.display==='flex'?'none':'flex';
+}
+async function askLisa(){
+ let inp=document.getElementById('lisaText');
+ let txt=inp.value.trim();
+ if(!txt) return;
+ let box=document.getElementById('lisaMsgs');
+ box.innerHTML+=`<div class="msg user">${txt}</div>`;
+ inp.value='';
+ box.innerHTML+=`<div class="msg bot" id="typing">Lisa likh rahi hai... ✍️</div>`;
+ box.scrollTop=box.scrollHeight;
+ let prompt=`Tum Lisa ho, Ahsan ki best dost. Roman Urdu me friendly baat karti ho, har sawal ka jawab deti ho. User ne kaha: ${txt}`;
+ try{
+   let res=await fetch('https://text.pollinations.ai/'+encodeURIComponent(prompt));
+   let reply=await res.text();
+   document.getElementById('typing').remove();
+   box.innerHTML+=`<div class="msg bot">${reply}</div>`;
+   box.scrollTop=box.scrollHeight;
+ }catch(e){
+   document.getElementById('typing').remove();
+   box.innerHTML+=`<div class="msg bot">Net slow hai yaar, phir se bolo? 😅</div>`;
+  }
