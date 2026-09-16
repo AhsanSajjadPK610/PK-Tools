@@ -1,107 +1,74 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PK Tools - Pakistan's No.1 All in One Tools</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PK-TOOLS - Pakistan's Fastest Tools</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI', sans-serif}
-body{background:#f0f5ff;color:#222}
-.header{background:linear-gradient(135deg,#26bcff,#0041cc);color:#fff;padding:35px 15px;text-align:center}
-.header h1{font-size:32px}
-.grid{display:grid;grid-template-columns:1fr;gap:18px;margin-top:20px}
-@media(min-width:768px){.grid{grid-template-columns:1fr 1fr}}
-@media(min-width:1024px){.grid{grid-template-columns:1fr 1fr 1fr}}
-.card{background:#fff;padding:22px;border-radius:16px;box-shadow:0 8px 25px rgba(43,108,255,.12);border-top:5px solid #26bcff}
-input{width:100%;padding:13px;border:2px solid #e1e8ff;border-radius:10px;outline:none}
-button{width:100%;background:#26bcff;color:#fff;border:0;padding:13px;border-radius:10px;margin-top:12px;font-weight:bold;cursor:pointer}
-.result{margin-top:14px;background:#f7f7ff;padding:14px;border-radius:10px;text-align:center;min-height:20px}
+body{margin:0;font-family:Arial;background:#f0f2f5}
+.header{text-align:center;padding:20px;background:linear-gradient(135deg,#26bcff,#0041cc);color:#fff}
+.card{background:#fff;padding:22px;border-radius:16px;box-shadow:0 8px 25px rgba(43,108,255,.12);border-top:5px solid #26bcff;margin-bottom:15px}
+.card input,.card textarea{width:100%;padding:13px;border:2px solid #e1e8ff;border-radius:10px;outline:none;margin-top:8px;box-sizing:border-box}
+.card button{width:100%;background:#26bcff;color:#fff;border:0;padding:13px;border-radius:10px;margin-top:12px;font-weight:bold;font-size:15px;cursor:pointer}
+.result{margin-top:14px;background:#f7f8ff;padding:14px;border-radius:10px;text-align:center;min-height:20px;word-break:break-all}
 .footer{text-align:center;padding:30px 10px;color:#666}
+.grid{max-width:1100px;margin:auto;padding:15px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:15px}
 /* LISA AI CSS */
-#lisaBtn{position:fixed;bottom:20px;right:20px;background:linear-gradient(135deg,#26bcff,#0041cc);color:#fff;width:65px;height:65px;border-radius:50%;border:0;font-size:30px;box-shadow:0 5px 15px rgba(0,0,0,.3);cursor:pointer;z-index:9999}
-#lisaBox{display:none;position:fixed;bottom:95px;right:15px;width:92%;max-width:360px;height:430px;background:#fff;border-radius:16px;box-shadow:0 10px 40px rgba(0,0,0,.3);z-index:9999;flex-direction:column;overflow:hidden;border:1px solid #e1e8ff}
+#lisaBtn{position:fixed;bottom:20px;right:20px;background:linear-gradient(135deg,#26bcff,#0041cc);color:#fff;width:65px;height:65px;border-radius:50%;border:none;font-size:30px;cursor:pointer;z-index:9999;box-shadow:0 4px 15px rgba(0,0,0,.3)}
+#lisaBox{display:none;position:fixed;bottom:95px;right:15px;width:92%;max-width:360px;height:430px;background:#fff;border-radius:15px;box-shadow:0 5px 30px rgba(0,0,0,.3);flex-direction:column;z-index:9999;overflow:hidden}
 #lisaHead{background:linear-gradient(135deg,#26bcff,#0041cc);color:#fff;padding:14px;text-align:center;font-weight:bold}
 #lisaMsgs{flex:1;padding:12px;overflow-y:auto}
 #lisaInputBox{display:flex;border-top:1px solid #eee}
-#lisaInputBox input{border:0;flex:1;padding:14px}
-#lisaInputBox button{width:70px;margin:0;border-radius:0}
+#lisaInputBox input{border:0;flex:1;padding:14px;outline:none}
+#lisaInputBox button{width:70px;margin:0;border-radius:0;background:#26bcff;color:#fff;border:none;font-weight:bold}
 .msg{margin:7px 0;padding:9px 12px;border-radius:12px;max-width:82%;font-size:14px;line-height:1.4}
 .user{background:#26bcff;color:#fff;margin-left:auto}
 .bot{background:#f1f4ff;color:#222}
 </style>
 </head>
 <body>
-
-<div class="header">
-<h1>PK TOOLS 🚀</h1>
-<p>Pakistan's Fastest All-in-One Tools - 100% Free</p>
+<div class="header"><h1>PK TOOLS 🔧</h1><p>Pakistan's Fastest All-in-One Tools - 100% Free</p></div>
+<div style="text-align:center;padding:20px;">
+<input id="searchInput" onkeyup="filterTools()" placeholder="🔍 Tool Search Karo..." style="width:90%;max-width:400px;padding:12px;border-radius:10px;border:2px solid #ccc;">
 </div>
-
-<div style="text-align:center; padding:20px;">
-<input id="searchInput" onkeyup="filterTools()" placeholder="🔍 Tool Search Karo..." style="width:90%; max-width:400px; padding:12px; border-radius:10px; border:2px solid #26bcff;">
-</div>
-
-<div style="max-width:1100px;margin:auto;padding:15px">
 <div class="grid">
-<div class="card"><h2>📱 QR Generator</h2><input id="qrText" placeholder="Link dalo..."><button onclick="makeQR()">QR Banao</button><div class="result"><img id="qrImg" style="display:none;max-width:180px;"></div></div>
-<div class="card"><h2>🖼️ Image to PDF</h2><input type="file" id="imgFile" accept="image/*"><button onclick="imgToPdf()">PDF Banao</button><div id="pdfResult" class="result">Image select karo</div></div>
-<div class="card"><h2>✨ Stylish Name</h2><input id="nameInput" placeholder="Ali"><button onclick="makeFancy()">VIP Style</button><div id="fancyResult" class="result">Yahan result ayega</div></div>
-<div class="card"><h2>🔐 Password Generator</h2><button onclick="genPass()">Strong Password</button><div id="passResult" class="result">Click karo</div></div>
- <div class="card"><h2>🎂 Age Calculator</h2><input type="date" id="dobInput"><button onclick="calcAgePro()">Age Nikalo</button><div id="ageRes" class="result"></div></div>
-<div class="card"><h2>% Percentage</h2><input type="number" id="obtM" placeholder="Obtained Marks"><input type="number" id="totM" placeholder="Total Marks"><button onclick="calcPerPro()">% Nikalo</button><div id="perRes" class="result"></div></div>
+<div class="card"><h2>🔗 QR Generator</h2><input id="qrText" placeholder="Link dalo..."><button onclick="makeQR()">QR Banao</button><div id="qrResult" class="result"></div></div>
+<div class="card"><h2>📄 Image to PDF</h2><input type="file" id="imgFile" accept="image/*"><button onclick="imgToPdf()">PDF Banao</button></div>
+<div class="card"><h2>✨ Stylish Name</h2><input id="nameInput" placeholder="Ali"><button onclick="makeFancy()">VIP Style</button><div id="fancyResult" class="result"></div></div>
+<div class="card"><h2>🔑 Password Generator</h2><button onclick="genPass()">Strong Password</button><div id="passResult" class="result"></div></div>
+<div class="card"><h2>🎂 Age Calculator</h2><input type="date" id="dobInput"><button onclick="calcAgePro()">Age Nikalo</button><div id="ageRes" class="result"></div></div>
+<div class="card"><h2>📊 Percentage</h2><input type="number" id="obtM" placeholder="Obtained Marks"><input type="number" id="totM" placeholder="Total Marks"><button onclick="calcPerPro()">% Nikalo</button><div id="perRes" class="result"></div></div>
 <div class="card"><h2>🔄 JPG to PNG</h2><input type="file" id="jpgFile" accept="image/*"><button onclick="convertJPGPro()">Convert & Download</button><canvas id="cvs" style="display:none"></canvas></div>
 <div class="card"><h2>📶 WiFi QR</h2><input id="wifiN" placeholder="WiFi Name"><input id="wifiP" placeholder="WiFi Password"><button onclick="makeWifiQRPro()">WiFi QR Banao</button></div>
-<div class="card"><h2>📄 CV Maker</h2><input id="cvName" placeholder="Full Name"><input id="cvSkill" placeholder="Skills, e.g. MS Office"><textarea id="cvExp" placeholder="Experience likho"></textarea><button onclick="makeCVPro()">CV Banao</button><div id="cvOut" class="result"></div></div>
+<div class="card"><h2>📄 CV Maker</h2><input id="cvName" placeholder="Full Name"><input id="cvSkill" placeholder="Skills"><textarea id="cvExp" placeholder="Experience"></textarea><button onclick="makeCVPro()">CV Banao</button><div id="cvOut" class="result"></div></div>
 </div>
-</div>
-
 <div class="footer">Made with ❤️ in Multan | PK-Tools 2026</div>
 
 <!-- LISA AI HTML -->
 <button id="lisaBtn" onclick="toggleLisa()">🤖</button>
 <div id="lisaBox">
 <div id="lisaHead">Lisa AI - Tumhari Assistant</div>
-<div id="lisaMsgs"><div class="msg bot">Hi! Main Lisa hun 👋 Bolo kaunsa tool use karna hai? QR, PDF, Password?</div></div>
+<div id="lisaMsgs"><div class="msg bot">Hi! Main Lisa hun 😊 Bolo kaunsa tool use karna hai? QR, PDF, Password?</div></div>
 <div id="lisaInputBox">
 <input id="lisaText" placeholder="Kuch likho..." onkeypress="if(event.key==='Enter')askLisa()">
 <button onclick="askLisa()">Send</button>
 </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
-function makeQR(){let t=document.getElementById('qrText').value; if(!t)return alert('Link likho'); let i=document.getElementById('qrImg'); i.src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data="+encodeURIComponent(t); i.style.display='block';}
-async function imgToPdf(){let f=document.getElementById('imgFile').files[0]; if(!f)return alert('Image select karo'); let r=new FileReader(); r.onload=function(e){let im=new Image(); im.onload=function(){let {jsPDF}=window.jspdf; let pdf=new jsPDF(); pdf.addImage(im,'JPEG',10,10,190,0); pdf.save('PK-Tools.pdf'); document.getElementById('pdfResult').innerText='✅ PDF Ho Gaya';}; im.src=e.target.result;}; r.readAsDataURL(f);}
-function makeFancy(){let n=document.getElementById('nameInput').value; if(!n)return alert('Naam likho'); let s=["𝔄𝔩𝔦","𝑨𝒍𝒊","𝕬𝖑𝖎","Ａｌｉ","🅰🅻🅸"]; document.getElementById('fancyResult').innerHTML=s.map(x=>`<div>${n} → ${x}</div>`).join('');}
-function genPass(){let c="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$&*"; let p=""; for(let i=0;i<14;i++)p+=c.charAt(Math.floor(Math.random()*c.length)); document.getElementById('passResult').innerText=p;}
-function calcAgePro(){ let d=new Date(document.getElementById('dobInput').value); if(!d) return alert('Date select karo'); let a=Math.floor((Date.now()-d)/31557600000); document.getElementById('ageRes').innerText='Umar: '+a+' Saal'; }
-function calcPerPro(){ let o=document.getElementById('obtM').value, t=document.getElementById('totM').value; if(!o||!t) return alert('Marks likho'); document.getElementById('perRes').innerText='Percentage: '+(o/t*100).toFixed(2)+'%'; }
-function convertJPGPro(){ let f=document.getElementById('jpgFile').files[0]; if(!f) return alert('Image select karo'); let im=new Image(); im.onload=function(){ let c=document.getElementById('cvs'); c.width=im.width; c.height=im.height; c.getContext('2d').drawImage(im,0,0); let a=document.createElement('a'); a.download='PK-Tools-Converted.png'; a.href=c.toDataURL('image/png'); a.click(); }; im.src=URL.createObjectURL(f); }
-function makeWifiQRPro(){ let s=document.getElementById('wifiN').value, p=document.getElementById('wifiP').value; if(!s) return alert('WiFi name likho'); document.getElementById('qrText').value=`WIFI:S:${s};T:WPA;P:${p};;`; makeQR(); alert('Neeche QR Generator me QR ban gaya, scroll karo!'); }
-function makeCVPro(){ let n=document.getElementById('cvName').value, s=document.getElementById('cvSkill').value, e=document.getElementById('cvExp').value; document.getElementById('cvOut').innerText=`--- CV ---\nName: ${n}\nSkills: ${s}\nExperience: ${e}\n\nMade with PK-Tools Multan`; }
- function filterTools(){let input=document.getElementById('searchInput').value.toLowerCase(); let cards=document.querySelectorAll('.card'); cards.forEach(card=>{let text=card.innerText.toLowerCase(); card.style.display=text.includes(input)?'':'none';});}
-// LISA AI LOGIC - DOST WALI LISA
-function toggleLisa(){
- let b=document.getElementById('lisaBox');
- b.style.display=b.style.display==='flex'?'none':'flex';
-}
-async function askLisa(){
- let inp=document.getElementById('lisaText');
- let txt=inp.value.trim();
- if(!txt) return;
- let box=document.getElementById('lisaMsgs');
- box.innerHTML+=`<div class="msg user">${txt}</div>`;
- inp.value='';
- box.innerHTML+=`<div class="msg bot" id="typing">Lisa likh rahi hai... ✍️</div>`;
- box.scrollTop=box.scrollHeight;
- let prompt=`Tum Lisa ho, Ahsan ki best dost. Roman Urdu me friendly baat karti ho, har sawal ka jawab deti ho. User ne kaha: ${txt}`;
- try{
-   let res=await fetch('https://text.pollinations.ai/'+encodeURIComponent(prompt));
-   let reply=await res.text();
-   document.getElementById('typing').remove();
-   box.innerHTML+=`<div class="msg bot">${reply}</div>`;
-   box.scrollTop=box.scrollHeight;
- }catch(e){
-   document.getElementById('typing').remove();
-   box.innerHTML+=`<div class="msg bot">Net slow hai yaar, phir se bolo? 😅</div>`;
-  }
+function makeQR(){let t=document.getElementById('qrText').value;if(!t)return alert('Link likho');let r=document.getElementById('qrResult');r.innerHTML=`<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(t)}">`;}
+async function imgToPdf(){let f=document.getElementById('imgFile').files[0];if(!f)return alert('Image select karo');let imgData=await new Promise(res=>{let r=new FileReader();r.onload=e=>res(e.target.result);r.readAsDataURL(f);});let {jsPDF}=window.jspdf;let doc=new jsPDF();doc.addImage(imgData,'JPEG',10,10,190,0);doc.save('PK-Tools.pdf');}
+function makeFancy(){let n=document.getElementById('nameInput').value;if(!n)return alert('Naam likho');document.getElementById('fancyResult').innerText=`★ ${n} ★ | ${n.split('').join('꧁')} | ${n.toUpperCase()}`;}
+function genPass(){let c="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$";let p="";for(let i=0;i<14;i++)p+=c[Math.floor(Math.random()*c.length)];document.getElementById('passResult').innerText=p;}
+function calcAgePro(){let v=document.getElementById('dobInput').value;if(!v)return alert('Date select karo');let d=new Date(v);let a=Math.floor((Date.now()-d)/31557600000);document.getElementById('ageRes').innerText='Umar: '+a+' Saal';}
+function calcPerPro(){let o=document.getElementById('obtM').value,t=document.getElementById('totM').value;if(!o||!t)return alert('Marks likho');document.getElementById('perRes').innerText='Percentage: '+(o/t*100).toFixed(2)+'%';}
+function convertJPGPro(){let f=document.getElementById('jpgFile').files[0];if(!f)return alert('Image select karo');let im=new Image();im.onload=function(){let c=document.getElementById('cvs');c.width=im.width;c.height=im.height;c.getContext('2d').drawImage(im,0,0);let a=document.createElement('a');a.download='PK-Tools-Converted.png';a.href=c.toDataURL('image/png');a.click();};im.src=URL.createObjectURL(f);}
+function makeWifiQRPro(){let s=document.getElementById('wifiN').value,p=document.getElementById('wifiP').value;if(!s)return alert('WiFi name likho');let data=`WIFI:S:${s};T:WPA;P:${p};;`;document.getElementById('qrText').value=data;makeQR();window.scrollTo(0,0);alert('Upar QR ban gaya hai!');}
+function makeCVPro(){let n=document.getElementById('cvName').value,s=document.getElementById('cvSkill').value,e=document.getElementById('cvExp').value;document.getElementById('cvOut').innerText=`--- CV ---\nName: ${n}\nSkills: ${s}\nExperience: ${e}\n\nMade with PK-Tools`;}
+function filterTools(){let input=document.getElementById('searchInput').value.toLowerCase();let cards=document.querySelectorAll('.card');cards.forEach(card=>{let t=card.innerText.toLowerCase();card.style.display=t.includes(input)?'':'none';});}
+// LISA LOGIC - DOST WALI LISA
+function toggleLisa(){let b=document.getElementById('lisaBox');b.style.display=b.style.display==='flex'?'none':'flex';}
+async function askLisa(){let inp=document.getElementById('lisaText');let txt=inp.value.trim();if(!txt)return;let box=document.getElementById('lisaMsgs');box.innerHTML+=`<div class="msg user">${txt}</div>`;inp.value='';box.innerHTML+=`<div class="msg bot" id="typing">Lisa likh rahi hai... ✍️</div>`;box.scrollTop=box.scrollHeight;let prompt=`Tum Lisa ho, Ahsan ki best dost. Roman Urdu me friendly baat karti ho, har sawal ka jawab deti ho. User ne kaha: ${txt}`;try{let res=await fetch('https://text.pollinations.ai/'+encodeURIComponent(prompt));let reply=await res.text();document.getElementById('typing').remove();box.innerHTML+=`<div class="msg bot">${reply}</div>`;box.scrollTop=box.scrollHeight;}catch(e){document.getElementById('typing').remove();box.innerHTML+=`<div class="msg bot">Net slow hai yaar, phir se bolo 😅</div>`;}}
+</script>
+</body>
+</html>
