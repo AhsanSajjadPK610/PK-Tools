@@ -99,6 +99,14 @@ let c='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&*';
 let p='';for(let i=0;i<14;i++)p+=c.charAt(Math.floor(Math.random()*c.length));
 document.getElementById('passResult').innerText=p;
 }
+  function filterTools(){
+  let input = document.getElementById('searchInput').value.toLowerCase();
+  let cards = document.querySelectorAll('.card');
+  cards.forEach(card => {
+    let text = card.innerText.toLowerCase();
+    card.style.display = text.includes(input) ? '' : 'none';
+  });
+}
 </script>
 </body>
 </html>
