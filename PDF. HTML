@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Image to PDF - PK Tools</title>
+<style>
+body{margin:0;font-family:Arial;background:#f0f2f5}
+.header{background:linear-gradient(135deg,#26bcff,#0041cc);color:#fff;padding:15px;text-align:center}
+.box{max-width:500px;margin:30px auto;background:#fff;padding:25px;border-radius:20px;box-shadow:0 10px 30px rgba(0,0,0,.1);text-align:center}
+button{background:linear-gradient(135deg,#26bcff,#0041cc);color:#fff;border:0;padding:14px 25px;border-radius:10px;font-weight:bold;width:95%;font-size:16px}
+a{color:#fff;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="header"><a href="index.html">⬅ Back</a> | Image to PDF 📄</div>
+<div class="box">
+<h2>Photo se PDF Banao</h2>
+<input type="file" id="img" accept="image/*" style="margin:15px 0">
+<br><button onclick="makePDF()">PDF Banao aur Download Karo</button>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+async function makePDF(){
+let f=document.getElementById('img').files[0];if(!f){alert('Photo select karo!');return;}
+let r=new FileReader();r.onload=function(e){
+let {jsPDF}=window.jspdf;let doc=new jsPDF();doc.addImage(e.target.result,'JPEG',10,10,190,0);doc.save('PK-Tools.pdf');
+};r.readAsDataURL(f);
+}
+</script>
+</body>
+</html>
