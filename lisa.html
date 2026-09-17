@@ -2,69 +2,61 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>LISA PRO MAX</title>
+<title>LISA</title>
 <style>
 body{margin:0;font-family:'Segoe UI',Arial;background:#f0f2f5;display:flex;flex-direction:column;height:100vh}
-.header{background:linear-gradient(135deg,#ff3e9d,#7b2cff);color:#fff;padding:12px 15px;display:flex;justify-content:space-between;align-items:center;font-weight:bold}
+.header{background:linear-gradient(135deg,#ff3e9d,#7b2cff);color:#fff;padding:13px 15px;display:flex;justify-content:space-between;align-items:center;font-weight:bold;font-size:18px}
 .header a{color:#fff;text-decoration:none}
-.iconBtn{background:rgba(255,255,255,.2);border:0;color:#fff;width:38px;height:38px;border-radius:50%;font-size:18px;margin-left:6px}
-#chat{flex:1;overflow-y:auto;padding:15px;max-width:700px;margin:0 auto;width:95%;box-sizing:border-box}
-.msg{padding:13px 18px;border-radius:20px;margin:10px 0;max-width:82%;line-height:1.5;font-size:15px}
+.iconBtn{background:rgba(255,255,255,.22);border:0;color:#fff;width:38px;height:38px;border-radius:50%;font-size:18px;margin-left:6px}
+#chat{flex:1;overflow-y:auto;padding:16px;max-width:700px;margin:0 auto;width:95%;box-sizing:border-box}
+.msg{padding:13px 18px;border-radius:20px;margin:10px 0;max-width:82%;line-height:1.55;font-size:15px}
 .user{background:linear-gradient(135deg,#26bcff,#0041cc);color:#fff;margin-left:auto;border-bottom-right-radius:6px}
 .bot{background:#fff;color:#222;box-shadow:0 3px 12px rgba(0,0,0,.08);border-bottom-left-radius:6px}
-.input-area{display:flex;gap:8px;padding:10px;background:#fff;border-top:1px solid #eee;max-width:700px;margin:0 auto;width:100%;box-sizing:border-box;align-items:center}
+.input-area{display:flex;gap:8px;padding:12px;background:#fff;border-top:1px solid #eee;max-width:700px;margin:0 auto;width:100%;box-sizing:border-box;align-items:center;position:sticky;bottom:0}
 .input-area input{flex:1;padding:14px 18px;border-radius:25px;border:2px solid #e1e8ff;outline:none;font-size:15px}
-.input-area button{border:0;width:48px;height:48px;border-radius:50%;font-size:18px;color:#fff}
+.input-area button{border:0;width:48px;height:48px;border-radius:50%;font-size:19px;color:#fff}
 #sendBtn{background:linear-gradient(135deg,#ff3e9d,#7b2cff)}
-#micBtn{background:#222}
-#micBtn.listening{background:red}
-#callScreen{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,#1a1a2e,#16213e);z-index:999;flex-direction:column;align-items:center;justify-content:center;color:#fff;text-align:center}
+#micBtn{background:#111}
+#micBtn.listening{background:red;animation:blink 1s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.5}}
+.typing{display:flex;gap:4px;padding:10px 0}
+.typing span{width:7px;height:7px;background:#8b8b8b;border-radius:50%;display:inline-block;animation:typing 1.3s infinite}
+.typing span:nth-child(2){animation-delay:.2s}
+.typing span:nth-child(3){animation-delay:.4s}
+@keyframes typing{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-5px);opacity:1}}
+#callScreen{display:none;position:fixed;inset:0;background:linear-gradient(135deg,#1a1a2e,#16213e);z-index:999;flex-direction:column;align-items:center;justify-content:center;color:#fff;text-align:center}
 </style>
 </head>
 <body>
 <div id="callScreen">
-<img src="https://i.pravatar.cc/150?img=5" style="width:100px;height:100px;border-radius:50%;border:4px solid #ff3e9d;margin-bottom:20px">
+<img src="https://i.pravatar.cc/150?img=5" style="width:110px;height:110px;border-radius:50%;border:4px solid #ff3e9d;margin-bottom:18px">
 <h2 id="callName">LISA 💜</h2>
-<p id="callStatus">Calling...</p>
-<button onclick="endCall()" style="margin-top:30px;background:#ff3040;color:#fff;border:0;width:60px;height:60px;border-radius:50%;font-size:24px">📵</button>
+<p id="callStatus" style="padding:0 25px;font-size:17px">Calling...</p>
+<button onclick="endCall()" style="margin-top:30px;background:#ff3040;color:#fff;border:0;width:68px;height:68px;border-radius:50%;font-size:28px">📵</button>
 </div>
 <div class="header">
 <a href="index.html">⬅</a>
-<span>LISA PRO MAX 💜</span>
+<span>LISA 💜</span>
 <div><button class="iconBtn" onclick="showMem()">🧠</button><button class="iconBtn" onclick="startCall()">📞</button></div>
 </div>
 <div id="chat"></div>
 <div class="input-area">
 <button id="micBtn" onclick="startVoice()">🎙️</button>
-<input id="inp" placeholder="Bolo ya likho..." onkeypress="if(event.key==='Enter')send()">
+<input id="inp" placeholder="Kuch likho..." onkeypress="if(event.key==='Enter')send()">
 <button id="sendBtn" onclick="send()">➤</button>
 </div>
 <script>
 let memory=JSON.parse(localStorage.getItem('lisa_memory')||'{"name":"","facts":[]}');
 let chatDiv=document.getElementById('chat');
-function showMsg(t,w){chatDiv.innerHTML+=`<div class='msg ${w}'>${t} ${w=='bot'?'<br><small onclick="speak(this.parentElement.innerText)" style="color:#7b2cff;cursor:pointer">🔊 Suno</small>':''}</div>`; chatDiv.scrollTop=chatDiv.scrollHeight; if(w=='bot') speak(t);}
-function showMem(){alert(`Naam: ${memory.name||'Nahi pata'}\nYaad: ${memory.facts.join(', ')||'Kuch nahi'}`);}
-if(memory.name){showMsg(`Welcome back ${memory.name}! 😍`,'bot');}else{showMsg(`Hi! Main LISA PRO MAX hun 😊 Voice + Call wali! Naam batao?`,'bot');}
-function startVoice(){
-let btn=document.getElementById('micBtn');
-if(!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)){alert('Chrome me kholo');return;}
-let rec=new (window.SpeechRecognition||window.webkitSpeechRecognition)(); rec.lang='ur-PK';
-btn.classList.add('listening'); btn.innerText='🔴';
-rec.onresult=e=>{document.getElementById('inp').value=e.results[0][0].transcript; send();};
-rec.onend=()=>{btn.classList.remove('listening'); btn.innerText='🎙️';};
-rec.start();
-}
-function speak(t){let u=new SpeechSynthesisUtterance(t.replace(/<[^>]*>/g,'')); u.lang='ur-PK'; u.rate=0.9; speechSynthesis.speak(u);}
-function startCall(){document.getElementById('callScreen').style.display='flex'; document.getElementById('callStatus').innerText='Ringing...'; setTimeout(()=>{let msg='Hi '+(memory.name||'dost')+'! Main LISA bol rahi hun call pe 💜'; document.getElementById('callStatus').innerText=msg; speak(msg);},2000);}
-function endCall(){document.getElementById('callScreen').style.display='none'; speechSynthesis.cancel(); showMsg(`Call khatam 😊`,'bot');}
-async function send(){
-let i=document.getElementById('inp'); let t=i.value.trim(); if(!t)return; showMsg(t,'user'); i.value='';
-let lower=t.toLowerCase();
-if(lower.includes('mera naam')||lower.includes('my name')){let name=t.replace(/mera naam|my name is|hai|hu/gi,'').trim().split(' ').pop(); memory.name=name.charAt(0).toUpperCase()+name.slice(1); localStorage.setItem('lisa_memory',JSON.stringify(memory)); showMsg(`Ok ${memory.name}! Yaad rakh liya 💜`,'bot'); return;}
-if(lower.includes('yaad rakh')){let fact=t.replace(/yaad rakhna|yaad rakh/gi,'').trim(); if(fact.length>2){memory.facts.push(fact); localStorage.setItem('lisa_memory',JSON.stringify(memory)); showMsg(`Save kar liya: "${fact}" ✅`,'bot'); return;}}
-let id='t'+Date.now(); chatDiv.innerHTML+=`<div class='msg bot' id='${id}'>LISA likh rahi hai...✍️</div>`; chatDiv.scrollTop=chatDiv.scrollHeight;
-try{let p=`Tum LISA ho, naam ${memory.name||'dost'}, yaad ${memory.facts.join(', ')}. Roman Urdu short. User: ${t}`; let r=await fetch('https://text.pollinations.ai/'+encodeURIComponent(p)); let d=await r.text(); document.getElementById(id).remove(); showMsg(d,'bot');}catch(e){document.getElementById(id).remove(); showMsg(`Net slow 😅`,'bot');}
-}
+function showMsg(t,w){chatDiv.innerHTML+=`<div class='msg ${w}'>${t}</div>`;chatDiv.scrollTop=chatDiv.scrollHeight;}
+function showMem(){alert(`Naam: ${memory.name||'Nahi'}\nYaad: ${memory.facts.join(', ')||'Kuch nahi'}`);}
+if(memory.name){showMsg(`Welcome back ${memory.name}! 😊`,'bot');}else{showMsg(`Hi! Main LISA hun 😊 Tumhara naam kya hai?`,'bot');}
+function startVoice(){let btn=document.getElementById('micBtn');if(!('webkitSpeechRecognition' in window||'SpeechRecognition' in window)){alert('Chrome me kholo');return;}let rec=new(window.SpeechRecognition||window.webkitSpeechRecognition)();rec.lang='ur-PK';btn.classList.add('listening');btn.innerText='🔴';rec.onresult=e=>{document.getElementById('inp').value=e.results[0][0].transcript;send();};rec.onend=()=>{btn.classList.remove('listening');btn.innerText='🎙️';};rec.start();}
+function getGirlVoice(){let vs=speechSynthesis.getVoices();return vs.find(v=>v.name.toLowerCase().includes('female'))||vs.find(v=>v.name.includes('Google हिन्दी'))||vs.find(v=>v.lang=='hi-IN')||vs[0];}
+function startCall(){document.getElementById('callScreen').style.display='flex';document.getElementById('callStatus').innerText='Ringing... 📞';setTimeout(()=>{let msg=`Assalam-o-Alaikum ${memory.name||'dost'}! Main LISA bol rahi hun, kesi ho? 💜`;document.getElementById('callStatus').innerText=msg;let u=new SpeechSynthesisUtterance(msg);let v=getGirlVoice();if(v)u.voice=v;u.lang='hi-IN';u.rate=0.85;u.pitch=1.7;u.volume=1;speechSynthesis.cancel();speechSynthesis.speak(u);},1200);}
+function endCall(){document.getElementById('callScreen').style.display='none';speechSynthesis.cancel();showMsg(`Call khatam 😊`,'bot');}
+async function send(){let i=document.getElementById('inp');let t=i.value.trim();if(!t)return;showMsg(t,'user');i.value='';let low=t.toLowerCase();if(low.includes('mera naam')||low.includes('my name')){let name=t.replace(/mera naam|my name is|hai|hu/gi,'').trim().split(' ').filter(w=>w.length>1).pop();memory.name=name.charAt(0).toUpperCase()+name.slice(1).toLowerCase();localStorage.setItem('lisa_memory',JSON.stringify(memory));showMsg(`Ok ${memory.name}! Yaad rakh liya 💜`,'bot');return;}if(low.includes('yaad rakh')){let fact=t.replace(/yaad rakhna|yaad rakh/gi,'').trim();if(fact.length>2){memory.facts.push(fact);localStorage.setItem('lisa_memory',JSON.stringify(memory));showMsg(`Save kar liya: "${fact}" ✅`,'bot');return;}}let id='typing-'+Date.now();chatDiv.innerHTML+=`<div class='msg bot' id='${id}'><div class='typing'><span></span><span></span><span></span></div></div>`;chatDiv.scrollTop=chatDiv.scrollHeight;try{let p=`Tum LISA ho, PK-TOOLS ki AI dost. Roman Urdu short. Naam ${memory.name||'dost'}, yaad ${memory.facts.join(', ')}. User: ${t}`;let r=await fetch('https://text.pollinations.ai/'+encodeURIComponent(p));let d=await r.text();document.getElementById(id).remove();showMsg(d,'bot');}catch(e){document.getElementById(id).remove();showMsg(`Net slow hai 😅`,'bot');}}
+speechSynthesis.onvoiceschanged=()=>{speechSynthesis.getVoices();};
 </script>
 </body>
 </html>
