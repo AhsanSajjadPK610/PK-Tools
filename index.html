@@ -3,29 +3,84 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PK-Tools - All in One</title>
+<title>PK-TOOLS</title>
 <style>
-body{font-family:Arial;background:#f0f4f8;margin:0;padding:20px;text-align:center}
-h1{color:#000}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:15px;max-width:800px;margin:25px auto}
-a{background:#fff;padding:18px;border-radius:12px;text-decoration:none;color:#000;font-weight:bold;box-shadow:0 3px 10px rgba(0,0,0,0.1);border:1px solid #e5e7eb}
-a:hover{background:#000;color:#fff;transform:translateY(-3px)}
+body{font-family:'Segoe UI', Arial; background:#e9ecf2; margin:0; padding:0; display:flex; justify-content:center;}
+.app{width:100%; max-width:420px; background:#e9ecf2; min-height:100vh; padding-bottom:90px;}
+.top{padding:22px 20px 10px 20px; text-align:left;}
+.top h1{margin:0; font-size:34px; font-weight:900; color:#1a1a5e; letter-spacing:-1px;}
+.top p{margin:2px 0 0 0; color:#888; font-size:16px;}
+.grid{display:grid; grid-template-columns:1fr 1fr; gap:14px; padding:15px;}
+.box{background:white; border-radius:20px; padding:18px 12px; text-decoration:none; color:#111; text-align:center; box-shadow:0 4px 12px rgba(0,0,0,0.06);}
+.box .name{font-weight:800; font-size:15px; margin-bottom:14px; min-height:36px; display:flex; align-items:center; justify-content:center;}
+.icon-bg{width:75px; height:75px; border-radius:18px; display:flex; align-items:center; justify-content:center; margin:0 auto; font-size:36px;}
+.c1{background:#d6e4ff;} .c2{background:#ffd1d1;} .c3{background:#b8e6e6;}
+.c4{background:#ffdf8a;} .c5{background:#c3f0b5;} .c6{background:#d0b8ff;}
+.c7{background:#ffe0a6;} .c8{background:#b5e1ff;} .c9{background:#ffc2e0;} .c10{background:#c2f0e8;}
+.navbar{position:fixed; bottom:0; left:50%; transform:translateX(-50%); width:100%; max-width:420px; background:white; border-radius:22px 22px 0 0; display:flex; justify-content:space-around; padding:12px 0; box-shadow:0 -2px 15px rgba(0,0,0,0.07);}
 </style>
 </head>
 <body>
-<h1>🇵🇰 PK-TOOLS</h1>
-<p>Pakistan's Best All in One Tools</p>
+<div class="app">
+<div class="top">
+<h1>PK-TOOLS</h1>
+<p>Home</p>
+</div>
+
 <div class="grid">
-<a href="qr.html">QR Generator</a>
-<a href="wifi.html">WiFi QR</a>
-<a href="age.html">Age Calculator</a>
-<a href="percentage.html">Percentage</a>
-<a href="password.html">Password</a>
-<a href="name.html">Stylish Name</a>
-<a href="lisa.html">LISA Tool</a>
-<a href="cv.html">CV Maker</a>
-<a href="pdf.html">Image to PDF</a>
-<a href="jpg.html">PDF to JPG</a>
+
+<a class="box" href="qr.html">
+<div class="name">QR Generator</div>
+<div class="icon-bg c1">📱</div>
+</a>
+
+<a class="box" href="age.html">
+<div class="name">Age Calculator</div>
+<div class="icon-bg c2">🎂</div>
+</a>
+
+<a class="box" href="wifi.html">
+<div class="name">WiFi QR</div>
+<div class="icon-bg c3">📶</div>
+</a>
+
+<a class="box" href="password.html">
+<div class="name">Password Generator</div>
+<div class="icon-bg c4">🔑</div>
+</a>
+
+<a class="box" href="percentage.html">
+<div class="name">Percentage</div>
+<div class="icon-bg c5">%</div>
+</a>
+
+<a class="box" href="name.html">
+<div class="name">Stylish Name</div>
+<div class="icon-bg c6">✨</div>
+</a>
+
+<a class="box" href="cv.html">
+<div class="name">CV Maker</div>
+<div class="icon-bg c7">📄</div>
+</a>
+
+<a class="box" href="pdf.html">
+<div class="name">Image to PDF</div>
+<div class="icon-bg c8">🖼️</div>
+</a>
+
+<a class="box" href="jpg.html">
+<div class="name">PDF to JPG</div>
+<div class="icon-bg c9">📑</div>
+</a>
+
+<a class="box" href="lisa.html">
+<div class="name">LISA Tool</div>
+<div class="icon-bg c10">💖</div>
+</a>
+
+</div>
+</div>
 </div>
 </body>
-  </html>
+</html>
