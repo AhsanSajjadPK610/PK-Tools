@@ -7,19 +7,18 @@
 body{margin:0;font-family:Arial;background:#f0f2f5}
 .header{background:#111;color:#fff;padding:12px 15px;font-weight:bold;display:flex;justify-content:space-between}
 .header a{color:#fff;text-decoration:none}
-.wrap{max-width:900px;margin:auto;padding:15px}
+.wrap{max-width:1000px;margin:auto;padding:15px}
 .card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 4px 15px rgba(0,0,0,.1);margin-bottom:20px;cursor:pointer}
 .card-body{padding:12px;display:flex;justify-content:space-between;align-items:center;background:#fff}
-.card-body b{font-size:16px}
-.card-body span{background:#111;color:#FFD700;padding:6px 12px;border-radius:20px;font-size:13px}
 #editor{display:none}
-.formBox{background:#fff;padding:15px;border-radius:12px}
+.formBox{background:#fff;padding:15px;border-radius:12px;position:sticky;top:15px}
 .formBox input,.formBox textarea{width:100%;padding:10px;margin:6px 0;border:1px solid #ddd;border-radius:8px;box-sizing:border-box}
-.btn{padding:12px;border:0;border-radius:8px;font-weight:bold;width:100%;margin-top:8px}
+.btn{padding:12px;border:0;border-radius:8px;font-weight:bold;width:100%;margin-top:8px;cursor:pointer}
 .btn-print{background:#111;color:#fff}
 .btn-back{background:#eee;color:#111}
-.cv{padding:25px;min-height:600px;border-radius:12px}
-@media print{.header,.formBox,.btn-back,h2{display:none}}
+.cv{border-radius:12px;overflow:hidden}
+@media print{.header,.formBox,.btn-back,h2{display:none} #previewBox{width:100%}}
+@media(max-width:700px){#grid{grid-template-columns:1fr !important}}
 </style>
 </head>
 <body>
@@ -28,37 +27,37 @@ body{margin:0;font-family:Arial;background:#f0f2f5}
 <div class="wrap" id="list">
 <h2>Template Select Karo</h2>
 
-<div class="card" onclick="openEditor(2)">
-<div style="background:#1e1e1e;color:#FFD700;padding:40px;text-align:center">
-<h1 style="margin:0">AYESHA KHAN</h1>
-<p>Marketing Manager | Elegant Black Gold</p>
+<div class="card" onclick="openEditor(1)">
+<div style="background:#1e1e1e;color:#FFD700;padding:50px 20px;text-align:center">
+<h1 style="margin:0;font-size:32px;letter-spacing:2px">AYESHA KHAN</h1>
+<p style="margin-top:10px">Marketing Manager | Elegant Black Gold</p>
 </div>
-<div class="card-body"><b>No 2 - Black Gold</b><span>Use This →</span></div>
+<div class="card-body"><b>No 1 - Black Gold</b><span style="background:#111;color:#FFD700;padding:6px 14px;border-radius:20px;font-size:13px">Use This →</span></div>
 </div>
 
-<div class="card" onclick="openEditor(3)">
-<div style="background:#fff;padding:30px;border-top:5px solid #00b09b">
+<div class="card" onclick="openEditor(2)">
+<div style="background:#fff;padding:35px 25px;border-top:6px solid #00b09b">
 <h2 style="margin:0">Sarah Malik</h2>
 <p style="color:#666">Software Engineer | Clean Minimalist</p>
 </div>
-<div class="card-body"><b>No 3 - Clean Minimalist</b><span>Use This →</span></div>
+<div class="card-body"><b>No 2 - Clean Minimalist</b><span style="background:#111;color:#FFD700;padding:6px 14px;border-radius:20px;font-size:13px">Use This →</span></div>
 </div>
 </div>
 
 <div class="wrap" id="editor">
-<button class="btn btn-back" onclick="closeEditor()">⬅ Wapis</button>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:15px" id="grid">
+<button class="btn btn-back" style="max-width:200px" onclick="closeEditor()">⬅ Wapis Templates</button>
+<div style="display:grid;grid-template-columns:350px 1fr;gap:15px;margin-top:15px" id="grid">
 <div class="formBox">
 <h3>Detail Bharo</h3>
-<input id="name" placeholder="Naam" oninput="update()">
+<input id="name" placeholder="Full Name" oninput="update()">
 <input id="job" placeholder="Job Title" oninput="update()">
 <input id="phone" placeholder="Phone" oninput="update()">
 <input id="email" placeholder="Email" oninput="update()">
 <input id="city" placeholder="City" oninput="update()">
-<textarea id="about" placeholder="About Me" oninput="update()"></textarea>
-<textarea id="exp" placeholder="Experience" oninput="update()"></textarea>
-<textarea id="skills" placeholder="Skills" oninput="update()"></textarea>
-<textarea id="edu" placeholder="Education" oninput="update()"></textarea>
+<textarea id="about" placeholder="About Me" rows="3" oninput="update()"></textarea>
+<textarea id="exp" placeholder="Experience" rows="3" oninput="update()"></textarea>
+<textarea id="skills" placeholder="Skills" rows="2" oninput="update()"></textarea>
+<textarea id="edu" placeholder="Education" rows="2" oninput="update()"></textarea>
 <button class="btn btn-print" onclick="window.print()">💾 Save / Print PDF</button>
 </div>
 <div id="previewBox"></div>
@@ -66,8 +65,8 @@ body{margin:0;font-family:Arial;background:#f0f2f5}
 </div>
 
 <script>
-let current=2;
-function openEditor(n){current=n;document.getElementById('list').style.display='none';document.getElementById('editor').style.display='block';update();}
+let current=1;
+function openEditor(n){current=n;document.getElementById('list').style.display='none';document.getElementById('editor').style.display='block';update(); window.scrollTo(0,0);}
 function closeEditor(){document.getElementById('editor').style.display='none';document.getElementById('list').style.display='block';}
 function update(){
 let name=document.getElementById('name').value||'Ayesha Khan';
@@ -75,13 +74,38 @@ let job=document.getElementById('job').value||'Marketing Manager';
 let phone=document.getElementById('phone').value||'+92 321 9876543';
 let email=document.getElementById('email').value||'ayesha@email.com';
 let city=document.getElementById('city').value||'Karachi';
-let about=document.getElementById('about').value||'Creative professional with 6+ years experience...';
-let exp=document.getElementById('exp').value||'Khaadi - Manager 2022-Present';
-let skills=document.getElementById('skills').value||'Digital Marketing, SEO';
-let edu=document.getElementById('edu').value||'BBA - IBA 2019';
+let about=document.getElementById('about').value||'Creative professional with 6+ years experience in marketing and brand building.';
+let exp=document.getElementById('exp').value||'Khaadi - Marketing Manager\n2022 - Present\nManaged campaigns for 10+ brands';
+let skills=document.getElementById('skills').value||'Digital Marketing, SEO, Leadership';
+let edu=document.getElementById('edu').value||'BBA - IBA Karachi 2019';
 let html='';
-if(current==2){html=`<div class="cv" style="background:#1e1e1e;color:#FFD700"><h1 style="color:#FFD700">${name}</h1><p>${job} | ${city}</p><hr style="border-color:#FFD700"><p>📞 ${phone}<br>✉️ ${email}</p><h3 style="color:#FFD700">PROFILE</h3><p style="color:#ddd">${about}</p><h3 style="color:#FFD700">EXPERIENCE</h3><p style="color:#ddd;white-space:pre-line">${exp}</p><h3 style="color:#FFD700">SKILLS</h3><p style="color:#ddd">${skills}</p><h3 style="color:#FFD700">EDUCATION</h3><p style="color:#ddd">${edu}</p></div>`;}
-else{html=`<div class="cv" style="background:#fff;color:#222;border:1px solid #ddd"><h1>${name}</h1><p>${job}</p><p>📞 ${phone} | ✉️ ${email} | 📍 ${city}</p><hr><h3>ABOUT</h3><p>${about}</p><h3>EXPERIENCE</h3><p style="white-space:pre-line">${exp}</p><h3>SKILLS</h3><p>${skills}</p><h3>EDUCATION</h3><p>${edu}</p></div>`;}
+if(current==1){
+html=`<div class="cv" style="background:#1e1e1e;color:#fff;min-height:700px">
+<div style="background:#111;padding:35px;text-align:center;border-bottom:3px solid #FFD700">
+<h1 style="color:#FFD700;margin:0;font-size:36px;letter-spacing:3px">${name}</h1>
+<p style="color:#FFD700;margin-top:8px;letter-spacing:1px">${job} | ${city}</p>
+</div>
+<div style="padding:25px">
+<p style="color:#FFD700">📞 ${phone} &nbsp; | &nbsp; ✉️ ${email}</p>
+<div style="margin-top:20px"><h3 style="color:#FFD700;border-bottom:1px solid #FFD700;padding-bottom:5px">PROFILE</h3><p style="color:#ccc;line-height:1.6">${about}</p></div>
+<div style="margin-top:20px"><h3 style="color:#FFD700;border-bottom:1px solid #FFD700;padding-bottom:5px">EXPERIENCE</h3><p style="color:#ccc;white-space:pre-line;line-height:1.6">${exp}</p></div>
+<div style="margin-top:20px"><h3 style="color:#FFD700;border-bottom:1px solid #FFD700;padding-bottom:5px">SKILLS</h3><p style="color:#ccc">${skills}</p></div>
+<div style="margin-top:20px"><h3 style="color:#FFD700;border-bottom:1px solid #FFD700;padding-bottom:5px">EDUCATION</h3><p style="color:#ccc;white-space:pre-line">${edu}</p></div>
+</div></div>`;
+}else{
+html=`<div class="cv" style="background:#fff;color:#222;min-height:700px;border:1px solid #ddd">
+<div style="padding:30px;border-bottom:1px solid #eee">
+<h1 style="margin:0;font-size:34px">${name}</h1>
+<p style="color:#00b09b;font-weight:bold;margin:5px 0">${job}</p>
+<p style="color:#666;font-size:14px">📞 ${phone} | ✉️ ${email} | 📍 ${city}</p>
+</div>
+<div style="padding:25px">
+<h3 style="color:#00b09b;margin-top:0">ABOUT ME</h3><p style="line-height:1.6">${about}</p>
+<h3 style="color:#00b09b">EXPERIENCE</h3><p style="white-space:pre-line;line-height:1.6">${exp}</p>
+<h3 style="color:#00b09b">SKILLS</h3><p style="background:#f0fffe;padding:10px;border-radius:8px">${skills}</p>
+<h3 style="color:#00b09b">EDUCATION</h3><p style="white-space:pre-line">${edu}</p>
+</div></div>`;
+}
 document.getElementById('previewBox').innerHTML=html;
 }
 </script>
