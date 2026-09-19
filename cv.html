@@ -3,6 +3,7 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CV Maker - PK Tools</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
 body{margin:0;font-family:Arial;background:#f0f2f5}
 .header{background:#111;color:#fff;padding:12px 15px;font-weight:bold;display:flex;justify-content:space-between}
@@ -15,9 +16,10 @@ body{margin:0;font-family:Arial;background:#f0f2f5}
 .formBox input,.formBox textarea{width:100%;padding:10px;margin:6px 0;border:1px solid #ddd;border-radius:8px;box-sizing:border-box}
 .btn{padding:12px;border:0;border-radius:8px;font-weight:bold;width:100%;margin-top:8px;cursor:pointer}
 .btn-print{background:#111;color:#fff}
+.btn-save{background:#FFD700;color:#111}
 .btn-back{background:#eee;color:#111}
 .cv{border-radius:12px;overflow:hidden}
-@media print{.header,.formBox,.btn-back,h2{display:none} #previewBox{width:100%}}
+@media print{.header,.formBox,.btn-back,h2{display:none}}
 @media(max-width:700px){#grid{grid-template-columns:1fr !important}}
 </style>
 </head>
@@ -58,7 +60,8 @@ body{margin:0;font-family:Arial;background:#f0f2f5}
 <textarea id="exp" placeholder="Experience" rows="3" oninput="update()"></textarea>
 <textarea id="skills" placeholder="Skills" rows="2" oninput="update()"></textarea>
 <textarea id="edu" placeholder="Education" rows="2" oninput="update()"></textarea>
-<button class="btn btn-print" onclick="window.print()">💾 Save / Print PDF</button>
+<button class="btn btn-print" onclick="window.print()">🖨️ Print</button>
+<button class="btn btn-save" onclick="downloadPDF()">💾 Save as PDF</button>
 </div>
 <div id="previewBox"></div>
 </div>
@@ -68,6 +71,12 @@ body{margin:0;font-family:Arial;background:#f0f2f5}
 let current=1;
 function openEditor(n){current=n;document.getElementById('list').style.display='none';document.getElementById('editor').style.display='block';update(); window.scrollTo(0,0);}
 function closeEditor(){document.getElementById('editor').style.display='none';document.getElementById('list').style.display='block';}
+function downloadPDF(){
+let element = document.getElementById('previewBox');
+let name = document.getElementById('name').value || 'My-CV';
+var opt = { margin: 0, filename: name+'-CV.pdf', image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2, useCORS: true }, jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' } };
+html2pdf().set(opt).from(element).save();
+}
 function update(){
 let name=document.getElementById('name').value||'Ayesha Khan';
 let job=document.getElementById('job').value||'Marketing Manager';
